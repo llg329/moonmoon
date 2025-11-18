@@ -89,5 +89,13 @@
       "api": "https://wwzy.tv/api.php/provide/vod",
       "name": "test"
     }
-  }
+  },
+  "resources": [ 
+    { 
+      "name": "CC自定义源", 
+      "api": "https://wwzy.tv/api.php/provide/vod", 
+      "playUrl": "https://你的域名/hls/{{id}}.m3u8", 
+      "type": "m3u8" 
+    } 
+  ] 
 }
