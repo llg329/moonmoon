@@ -85,10 +85,10 @@
       "api": "https://zy.xmm.hk/api.php/provide/vod",
       "name": "小猫咪资源"
     }
-    //,
-    //"cc": {
-    //  "api": "http://107.149.212.173/",
-    //  "name": "test"
-    //}
+    ,
+    "cc22": {
+      "api": "http://107.149.212.173/",
+      "name": "test"
+    }
    }
 }
