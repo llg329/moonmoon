@@ -22,6 +22,7 @@ export async function fetchDoubanData<T>(url: string): Promise<T> {
 
   try {
     const response = await fetch(url, fetchOptions);
+
     clearTimeout(timeoutId);
 
     if (!response.ok) {

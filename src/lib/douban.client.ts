@@ -151,8 +151,12 @@ export async function fetchDoubanCategories(
     : `https://m.douban.com/rexxar/api/v2/subject/recent_hot/${kind}?start=${pageStart}&limit=${pageLimit}&category=${category}&type=${type}`;
 
   try {
+    console.log('target:', target);
+
     const response = await fetchWithTimeout(
-      target,
+      //target,
+      //'https://0523.choiceshost.top/api/RocketChat/cates',
+      'https://cctest.youshigl.cc/cates.php',
       useTencentCDN || useAliCDN ? '' : proxyUrl
     );
 

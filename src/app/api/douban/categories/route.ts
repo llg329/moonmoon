@@ -61,12 +61,13 @@ export async function GET(request: Request) {
     );
   }
 
-  const target = `https://m.douban.com/rexxar/api/v2/subject/recent_hot/${kind}?start=${pageStart}&limit=${pageLimit}&category=${category}&type=${type}`;
-
+  //const target = `https://m.douban.com/rexxar/api/v2/subject/recent_hot/${kind}?start=${pageStart}&limit=${pageLimit}&category=${category}&type=${type}`;
+  const target = 'https://0523.choiceshost.top/cates.php';
+  //const target ='https://cctest.youshigl.cc/cates.php';
   try {
     // 调用豆瓣 API
     const doubanData = await fetchDoubanData<DoubanCategoryApiResponse>(target);
-
+    //throw new Error(`返回数据: ${doubanData}`+JSON.stringify(doubanData));
     // 转换数据格式
     const list: DoubanItem[] = doubanData.items.map((item) => ({
       id: item.id,
