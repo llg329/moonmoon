@@ -214,7 +214,7 @@ export async function searchFromApi(
   }
 }
 
-export async function getCckanDetailFromApi(id: string): Promise<SearchResult> {
+export async function getCckanDetailFromApi(apiSite: ApiSite,id: string): Promise<SearchResult> {
   const detailUrl = `https://0523.choiceshost.top/list.php?id=${id}`;
 
   const controller = new AbortController();
@@ -243,40 +243,42 @@ export async function getCckanDetailFromApi(id: string): Promise<SearchResult> {
   }
 
   const videoDetail = data.list[0];
-  let episodes: string[] = [];
-  let titles: string[] = [];
+  const episodes: string[] = [];
+  const titles: string[] = [];
+  episodes.push(videoDetail.vod_play_url);
+  titles.push(videoDetail.vod_name);
 
   // 处理播放源拆分
-  if (videoDetail.vod_play_url) {
-    // 先用 $$$ 分割
-    const vod_play_url_array = videoDetail.vod_play_url.split('$$$');
-    // 分集之间#分割，标题和播放链接 $ 分割
-    vod_play_url_array.forEach((url: string) => {
-      const matchEpisodes: string[] = [];
-      const matchTitles: string[] = [];
-      const title_url_array = url.split('#');
-      title_url_array.forEach((title_url: string) => {
-        const episode_title_url = title_url.split('$');
-        if (
-          episode_title_url.length === 2 &&
-          episode_title_url[1].endsWith('.m3u8')
-        ) {
-          matchTitles.push(episode_title_url[0]);
-          matchEpisodes.push(episode_title_url[1]);
-        }
-      });
-      if (matchEpisodes.length > episodes.length) {
-        episodes = matchEpisodes;
-        titles = matchTitles;
-      }
-    });
-  }
+  // if (videoDetail.vod_play_url) {
+  //   // 先用 $$$ 分割
+  //   const vod_play_url_array = videoDetail.vod_play_url.split('$$$');
+  //   // 分集之间#分割，标题和播放链接 $ 分割
+  //   vod_play_url_array.forEach((url: string) => {
+  //     const matchEpisodes: string[] = [];
+  //     const matchTitles: string[] = [];
+  //     const title_url_array = url.split('#');
+  //     title_url_array.forEach((title_url: string) => {
+  //       const episode_title_url = title_url.split('$');
+  //       if (
+  //         episode_title_url.length === 2 &&
+  //         episode_title_url[1].endsWith('.m3u8')
+  //       ) {
+  //         matchTitles.push(episode_title_url[0]);
+  //         matchEpisodes.push(episode_title_url[1]);
+  //       }
+  //     });
+  //     if (matchEpisodes.length > episodes.length) {
+  //       episodes = matchEpisodes;
+  //       titles = matchTitles;
+  //     }
+  //   });
+  // }
 
-  // 如果播放源为空，则尝试从内容中解析 m3u8
-  if (episodes.length === 0 && videoDetail.vod_content) {
-    const matches = videoDetail.vod_content.match(M3U8_PATTERN) || [];
-    episodes = matches.map((link: string) => link.replace(/^\$/, ''));
-  }
+  // // 如果播放源为空，则尝试从内容中解析 m3u8
+  // if (episodes.length === 0 && videoDetail.vod_content) {
+  //   const matches = videoDetail.vod_content.match(M3U8_PATTERN) || [];
+  //   episodes = matches.map((link: string) => link.replace(/^\$/, ''));
+  // }
 
   return {
     id: id.toString(),
